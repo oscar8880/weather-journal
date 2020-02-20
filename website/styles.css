@@ -1,0 +1,141 @@
+body {
+  font-size: 16px;
+  line-height: 25px;
+  font-family: 'Nunito', sans-serif;
+  color: #333333;
+  background-color: #7192BE;
+  margin: 0;
+}
+
+
+.alignleft {
+	float: left;
+}
+
+.alignright {
+	float: right;
+}
+
+h1 {
+  width: 140px;
+  padding-right: 50px;
+  text-align: right;
+  font-size: 2.1em;
+  line-height: 1.2em;
+  font-weight: 400;
+  color: white;
+}
+
+h2{
+  color: white;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  padding: 25px 0;
+}
+
+header img{
+  height: 100px;
+  width: 100px;
+  padding: 25px 0 25px 25px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input[type="text"] {
+  height: 30px;
+  width: 60%;
+  max-width: 250px;
+  margin: 15px 0;
+  padding: 10px 15px;
+  font-size: 1em;
+  border: none;
+  color: #7F7F7F;
+}
+
+textarea {
+  outline: none;
+  font-size: 1em;
+  height: 80px;
+  width: 60%;
+  min-width: 120px;
+  max-width: 250px;
+  margin: 15px 0;
+  padding: 10px 15px;
+  color: #7F7F7F;
+}
+
+button {
+  height: 45px;
+  width: 120px;
+  margin: 15px 0 30px 0;
+  border-radius: 8px;
+  padding: 0;
+  border: none;
+  background-color: #495867;
+  color: white;
+  font-size: 1.2em;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+}
+
+content {
+  display:flex;
+  flex-flow: column;
+  align-items: center;
+  padding: 20px;
+  width: auto;
+}
+
+.weather-post {
+  width: 75%;
+  height: auto;
+  margin: 15px;
+  padding: 20px 20px 20px 20px;
+  background-color: white;
+  text-align: left;
+  border-radius: 8px;
+  box-shadow:
+  0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+  0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+  0 12.5px 10px rgba(0, 0, 0, 0.06),
+  0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+  0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+  0 100px 80px rgba(0, 0, 0, 0.12);
+}
+
+.weather-location {
+  font-size: 1.5em;
+  padding: 10px 10px 0 10px;
+  margin: 0;
+}
+
+
+.weather-date {
+  clear: both;
+  padding: 0 0 10px 10px;
+  margin: 0;
+  color: #7F7F7F;
+}
+
+.weather-temperature {
+  font-size: 2em;
+  padding: 10px 10px 0 10px;
+  margin: 0;
+}
+
+.weather-text {
+  margin: 0;
+  padding: 0 10px;
+}
