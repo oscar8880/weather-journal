@@ -52,10 +52,9 @@ header img{
   align-items: center;
 }
 
-input[type="text"] {
-  height: 30px;
-  width: 60%;
-  max-width: 250px;
+select {
+  height: 50px;
+  width: 270px;
   margin: 15px 0;
   padding: 10px 15px;
   font-size: 1em;
@@ -63,16 +62,26 @@ input[type="text"] {
   color: #7F7F7F;
 }
 
+input[type="text"] {
+  height: 30px;
+  width: 250px;
+  margin: 15px 0;
+  padding: 10px 10px;
+  font-size: 1em;
+  border: none;
+  color: #7F7F7F;
+  border-radius: 5px;
+}
+
 textarea {
   outline: none;
   font-size: 1em;
   height: 80px;
-  width: 60%;
-  min-width: 120px;
-  max-width: 250px;
+  width: 250px;
   margin: 15px 0;
-  padding: 10px 15px;
+  padding: 15px 10px;
   color: #7F7F7F;
+  border-radius: 5px;
 }
 
 button {
@@ -116,9 +125,23 @@ content {
   0 100px 80px rgba(0, 0, 0, 0.12);
 }
 
+.post-header{
+  display:flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.weather-post img {
+  height: 50px;
+  min-height: 50px;
+  width: 50px;
+  min-width: 50px;
+  padding: 0;
+}
+
 .weather-location {
-  font-size: 1.5em;
-  padding: 10px 10px 0 10px;
+  font-size: 1.3em;
+  padding: 12px 5px 0 10px;
   margin: 0;
 }
 
@@ -131,12 +154,12 @@ content {
 }
 
 .weather-temperature {
-  font-size: 2em;
-  padding: 10px 10px 0 10px;
+  font-size: 1.7em;
+  padding: 12px 10px 0 0;
   margin: 0;
 }
 
 .weather-text {
   margin: 0;
-  padding: 0 10px;
+  padding: 0 10px 12px 10px;
 }
