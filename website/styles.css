@@ -21,6 +21,7 @@ input[type="button"],
 input[type="submit"],
 .input-checkbox {
 -webkit-appearance: none;
+font-family: 'Nunito', sans-serif;
 border-radius: 0;
 }
 
