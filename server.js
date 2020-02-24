@@ -42,7 +42,7 @@ const cors = require('cors')
 app.use(cors())
 
 /* Direct server to project folder */
-app.use(express.static('docs'))
+app.use(express.static('website'))
 
 /* Choose port and start up server */
 const port = 8000
