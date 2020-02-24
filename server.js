@@ -45,8 +45,8 @@ app.use(cors())
 app.use(express.static('website'))
 
 /* Choose port and start up server */
-const port = 8000
-app.listen(port, () => console.log('Server running on localhost: ' + port))
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => console.log('Server running on localhost: ' + PORT))
 
 /* Routes */
 

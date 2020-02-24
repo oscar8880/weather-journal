@@ -1,5 +1,9 @@
 /** ************** GLOBAL VARIABLES *****************/
 
+// Server URL
+const serverUrl = 'http://localhost:8000/';
+//const serverUrl = '';
+
 // Weather API url parts
 const baseUrl = 'http://api.openweathermap.org/data/2.5/weather?zip='
 const apiKey = '&appid=435c250cfdd45953cf40e7b8134adbb6'
@@ -81,7 +85,7 @@ function submitHandler () {
         }
 
         // Post new entry to back end
-        await postData('http://localhost:8000/add', entry)
+        await postData(serverUrl + 'add', entry)
 
         // Update UI with new journal entry
         updateUi()
@@ -104,7 +108,7 @@ async function deleteHandler (event) {
     }
     // Use the id held in the post's dataset to build DELETE request url
     const id = target.dataset.id
-    await deleteData('http://localhost:8000/delete/' + id)
+    await deleteData(serverUrl + 'delete/' + id)
 
     // Remove post from the UI
     removeFromUI(target)
@@ -160,7 +164,7 @@ async function deleteData (url = '', id = '') {
 
 // Initialise UI to reflect data in server
 async function initialiseUI () {
-  const request = await fetch('http://localhost:8000/all')
+  const request = await fetch(serverUrl + 'all')
   try {
     const allData = await request.json()
     allData.forEach(data => buildJournalEntry(data))
@@ -171,7 +175,7 @@ async function initialiseUI () {
 
 // Update UI with latest post
 async function updateUi () {
-  const request = await fetch('http://localhost:8000/latest')
+  const request = await fetch(serverUrl + 'latest')
   try {
     const latestPost = await request.json()
     buildJournalEntry(latestPost)
