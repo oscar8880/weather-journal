@@ -8,7 +8,7 @@ const apiKey = '&appid=435c250cfdd45953cf40e7b8134adbb6';
 const iconUrlStart = 'http://openweathermap.org/img/wn/';
 const iconUrlEnd = '@2x.png';
 
-// A crude varaible to generate unique id's for posts
+// A crude varaible to generate unique ID's for posts
 let crudeId = 0;
 
 
@@ -36,6 +36,7 @@ content.addEventListener('click', (event)=> deleteHandler(event));
 
 /****************** EVENT HANDLERS *******************/
 
+// Change palceholder text according to country selected
 function selectHandler(event) {
   const zip = document.getElementById('zip');
   const value = event.target.value;
@@ -46,24 +47,32 @@ function selectHandler(event) {
   }
 }
 
+// Remove 'invalid' class from zip code field when user reattempts a zip code
 function zipClickHandler(event) {
   event.target.classList.remove("invalid")
 }
 
+// Publish post
 function submitHandler() {
+  // Get relevant values from input elements
   const zipCode = document.querySelector('#zip').value;
   const text = document.querySelector('#feelings').value;
   const countryCode = ',' + document.querySelector('#country').value;
+
+  // Build api request URL based on inputs
   const apiUrl = baseUrl + zipCode + countryCode + apiKey;
   const id = crudeId.toString();
   crudeId++;
 
+  // Get today's date as a string
   let today = dateString();
 
+  // Fetch weather data from Open Weather map
   retrieveData(apiUrl)
   .then( async function (data) {
 
     try{
+      // Create a new journal entry object
       const entry = {
         location: data.name + ", " + data.sys.country,
         temperature: Math.round(data.main.temp - 273.15),
@@ -72,10 +81,15 @@ function submitHandler() {
         iconCode: data.weather[0].icon,
         id: id
       }
+
+      // Post new entry to back end
       await postData('http://localhost:8000/add', entry);
+
+      // Update UI with new journal entry
       updateUi();
     } catch (error) {
       console.log(error)
+      // Make zip code field red to indicate invalid zip code
       document.querySelector("#zip").classList.add("invalid");
     }
   });
@@ -83,17 +97,23 @@ function submitHandler() {
 
 async function deleteHandler(event) {
   let target = event.target;
-  if(target.className == 'remove-button') {
+
+  // Test if the target is a remove button
+  if(target.className === 'remove-button') {
+    // Find the post that the remove button belongs to
     while(target.className != 'weather-post') {
       target = target.parentElement;
     }
+    // Use the id held in the post's dataset to build DELETE request url
     const id = target.dataset.id;
     await deleteData('http://localhost:8000/delete/' + id)
+
+    // Remove post from the UI
     removeFromUI(target);
   }
 }
 
-/****************** API FUNCTIONS *******************/
+/****************** API REQUESTS *******************/
 
 // Get data
 async function retrieveData(url='') {
