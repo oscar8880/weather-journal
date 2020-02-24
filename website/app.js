@@ -1,7 +1,6 @@
 /** ************** GLOBAL VARIABLES *****************/
 
-// Server URL
-
+// -------- SERVER URL --------
 // Localhost server:
 // const serverUrl = 'http://localhost:8000/';
 
