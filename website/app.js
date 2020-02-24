@@ -8,7 +8,7 @@
 const serverUrl = 'https://blooming-bayou-73291.herokuapp.com/';
 
 // Weather API url parts
-const baseUrl = 'http://api.openweathermap.org/data/2.5/weather?zip='
+const baseUrl = 'https://api.openweathermap.org/data/2.5/weather?zip='
 const apiKey = '&appid=435c250cfdd45953cf40e7b8134adbb6'
 
 // Weather icon url parts
