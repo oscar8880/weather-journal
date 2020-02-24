@@ -1,8 +1,12 @@
 /** ************** GLOBAL VARIABLES *****************/
 
 // Server URL
-const serverUrl = 'http://localhost:8000/';
-//const serverUrl = '';
+
+// Localhost server:
+// const serverUrl = 'http://localhost:8000/';
+
+// Heroku hosted server:
+const serverUrl = 'https://blooming-bayou-73291.herokuapp.com/';
 
 // Weather API url parts
 const baseUrl = 'http://api.openweathermap.org/data/2.5/weather?zip='
@@ -17,7 +21,7 @@ let crudeId = 0
 
 /** ******** FUNCTIONS TO RUN IMMEDIATELY ***********/
 
-initialiseUI()
+initialiseUI();
 
 /** *************** EVENT LISTENERS ******************/
 
