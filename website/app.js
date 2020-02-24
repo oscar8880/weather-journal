@@ -1,3 +1,5 @@
+/**************** GLOBAL VARIABLES *****************/
+
 // Weather API url parts
 const baseUrl = 'http://api.openweathermap.org/data/2.5/weather?zip='
 const apiKey = '&appid=435c250cfdd45953cf40e7b8134adbb6';
@@ -6,8 +8,95 @@ const apiKey = '&appid=435c250cfdd45953cf40e7b8134adbb6';
 const iconUrlStart = 'http://openweathermap.org/img/wn/';
 const iconUrlEnd = '@2x.png';
 
+// A crude varaible to generate unique id's for posts
+let crudeId = 0;
+
+
+/********** FUNCTIONS TO RUN IMMEDIATELY ***********/
+
+initialiseUI();
+
+/***************** EVENT LISTENERS ******************/
+
+// For publish buttom
+const submitButton = document.getElementById('generate');
+submitButton.addEventListener('click', submitHandler);
+
+// For returning zip code to orginal style after invalid zip entered
+const zip = document.getElementById('zip');
+zip.addEventListener('click', (event)=> zipClickHandler(event));
+
+// For changing placeholder text according to country selected
+const countrySelector = document.getElementById('country');
+countrySelector.addEventListener('change', (event) => selectHandler(event))
+
+// For potential delete click
+const content = document.querySelector('content');
+content.addEventListener('click', (event)=> deleteHandler(event));
+
+/****************** EVENT HANDLERS *******************/
+
+function selectHandler(event) {
+  const zip = document.getElementById('zip');
+  const value = event.target.value;
+  if(value === 'gb') {
+    zip.setAttribute('placeholder', 'Enter post code. Eg: SW9');
+  } else if(value === 'us') {
+    zip.setAttribute('placeholder', 'Enter zip code. Eg: 94040');
+  }
+}
+
+function zipClickHandler(event) {
+  event.target.classList.remove("invalid")
+}
+
+function submitHandler() {
+  const zipCode = document.querySelector('#zip').value;
+  const text = document.querySelector('#feelings').value;
+  const countryCode = ',' + document.querySelector('#country').value;
+  const apiUrl = baseUrl + zipCode + countryCode + apiKey;
+  const id = crudeId.toString();
+  crudeId++;
+
+  let today = dateString();
+
+  retrieveData(apiUrl)
+  .then( async function (data) {
+
+    try{
+      const entry = {
+        location: data.name + ", " + data.sys.country,
+        temperature: Math.round(data.main.temp - 273.15),
+        date: today,
+        content: text,
+        iconCode: data.weather[0].icon,
+        id: id
+      }
+      await postData('http://localhost:8000/add', entry);
+      updateUi();
+    } catch (error) {
+      console.log(error)
+      document.querySelector("#zip").classList.add("invalid");
+    }
+  });
+}
+
+async function deleteHandler(event) {
+  let target = event.target;
+  if(target.className == 'remove-button') {
+    while(target.className != 'weather-post') {
+      target = target.parentElement;
+    }
+    const id = target.dataset.id;
+    await deleteData('http://localhost:8000/delete/' + id)
+    removeFromUI(target);
+  }
+}
+
+/****************** API FUNCTIONS *******************/
+
 // Get data
-const retrieveData = async (url='') => {
+async function retrieveData(url='') {
   const request = await fetch(url);
   try {
     const allData = await request.json();
@@ -19,8 +108,7 @@ const retrieveData = async (url='') => {
 }
 
 // Post data
-const postData = async (url = '', data ={}) => {
-  console.log('posting new data')
+async function postData(url = '', data ={}) {
   const response = await fetch(url, {
     method: 'POST', 
     credentials: 'same-origin', 
@@ -32,15 +120,29 @@ const postData = async (url = '', data ={}) => {
 
   try {
     const newData = await response.json();
-    console.log('posted new data')
     return newData;
   } catch(error) {
     console.log(error);
   }
 }
 
+// Delete post
+async function deleteData(url = '', id = '') {
+  const deleteUrl = url + id;
+  const response = await fetch(deleteUrl, {
+    method: 'delete'
+  });
+
+  try {
+    const deleteResponse = await response.json();
+    return deleteResponse;
+  } catch(error) {
+    console.log(error);
+  }
+}
+
 // Initialise UI to reflect data in server
-const initialiseUI = async () => {
+async function initialiseUI(){
   const request = await fetch('http://localhost:8000/all');
   try {
     const allData = await request.json();
@@ -51,60 +153,26 @@ const initialiseUI = async () => {
 }
 
 // Update UI with latest post
-const updateUi = async () => {
-  console.log('Updating UI');
+async function updateUi() {
 
   const request = await fetch('http://localhost:8000/latest');
   try {
     const latestPost = await request.json();
     buildJournalEntry(latestPost);
-    console.log('updated UI')
+    document.querySelector('#feelings').value = "";
+    document.querySelector('#country').value ="0";
+    document.querySelector('#zip').value="";
   } catch (error) {
     console.log(error);
   }
 }
 
-const submitButton = document.getElementById('generate');
-submitButton.addEventListener('click', submitHandler);
-
-function submitHandler() {
-  publishPost();
+// Remove post from UI
+function removeFromUI(target) {
+  target.parentNode.removeChild(target);
 }
 
-const publishPost = () => {
-  const zipCode = document.querySelector('#zip').value;
-  const text = document.querySelector('#feelings').value;
-  const countryCode = ',' + document.querySelector('#country').value;
-  const apiUrl = baseUrl + zipCode + countryCode + apiKey;
-
-  let today = dateString();
-
-  retrieveData(apiUrl)
-  .then( async function (data) {
-    const entry = {
-      location: data.name + ", " + data.sys.country,
-      temperature: Math.round(data.main.temp - 273.15),
-      date: today,
-      content: text,
-      iconCode: data.weather[0].icon
-    }
-    await postData('http://localhost:8000/add', entry);
-    updateUi();
-
-  });
-  
-}
-
-
-// Get the date in a string formatted dd/mm/yyyy
-function dateString() {
-  let today = new Date();
-  let dd = String(today.getDate()).padStart(2, '0');
-  let mm = String(today.getMonth() + 1).padStart(2, '0');
-  let yyyy = today.getFullYear();
-  let dateString = dd + '.' + mm + '.' + yyyy;
-  return dateString;
-}
+/****************** HELPER FUNCTIONS *******************/
 
 // Build a journal entry element from journal data
 function buildJournalEntry(data) {
@@ -117,6 +185,16 @@ function buildJournalEntry(data) {
   // Create journal entry card
   const newEntry = document.createElement('div');
   newEntry.classList.add("weather-post");
+
+  // Add remove button to entry card
+  const removeButton = document.createElement('img');
+  removeButton.setAttribute('src', './images/remove.png');
+  removeButton.setAttribute('alt', 'Remove button');
+  removeButton.classList.add('remove-button');
+  newEntry.appendChild(removeButton);
+
+  // Add id data to card
+  newEntry.setAttribute('data-id', data.id);
 
   // Create post header div
   const postHeader = document.createElement('div');
@@ -144,6 +222,7 @@ function buildJournalEntry(data) {
   const icon = document.createElement('img');
   icon.setAttribute("src", iconUrl);
   icon.setAttribute("alt", "Weather icon");
+  icon.classList.add("weather-icon");
   postHeader.appendChild(icon);
 
   // Create and append temperature to post header
@@ -165,4 +244,14 @@ function buildJournalEntry(data) {
   content.prepend(newEntry);
 }
 
-initialiseUI();
+// Get the date in a string formatted dd/mm/yyyy
+function dateString() {
+  let today = new Date();
+  let dd = String(today.getDate()).padStart(2, '0');
+  let mm = String(today.getMonth() + 1).padStart(2, '0');
+  let yyyy = today.getFullYear();
+  let dateString = dd + '.' + mm + '.' + yyyy;
+  return dateString;
+}
+
+

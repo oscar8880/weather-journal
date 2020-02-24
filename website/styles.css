@@ -17,6 +17,10 @@ body {
 	float: right;
 }
 
+.invalid {
+  background-color: #ffcccb;
+}
+
 h1 {
   width: 140px;
   padding-right: 50px;
@@ -68,7 +72,6 @@ input[type="text"] {
   margin: 15px 0;
   padding: 10px 10px;
   font-size: 1em;
-  border: none;
   color: #7F7F7F;
   border-radius: 5px;
 }
@@ -109,6 +112,7 @@ content {
 }
 
 .weather-post {
+  position: relative;
   width: 75%;
   height: auto;
   margin: 15px;
@@ -131,12 +135,21 @@ content {
   align-items: flex-start;
 }
 
-.weather-post img {
+.weather-icon {
   height: 50px;
   min-height: 50px;
   width: 50px;
   min-width: 50px;
   padding: 0;
+}
+
+.remove-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  height: 15px;
+  width: 15px;
+  opacity: 0.5;
 }
 
 .weather-location {
