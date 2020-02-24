@@ -189,7 +189,6 @@ async function updateUi () {
     const latestPost = await request.json()
     buildJournalEntry(latestPost)
     document.querySelector('#feelings').value = ''
-    document.querySelector('#country').value = '0'
     document.querySelector('#zip').value = ''
   } catch (error) {
     console.log(error)
