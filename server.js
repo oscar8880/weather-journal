@@ -1,5 +1,6 @@
 /* Data endpoint */
 
+// Preload endpoint with some example posts
 let projectData = [
   { location: 'Edinburgh, GB',
     temperature: 9,
