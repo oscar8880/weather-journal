@@ -73,6 +73,7 @@ header img{
 }
 
 select {
+  font-family: 'Nunito', sans-serif;
   height: 50px;
   width: 270px;
   margin: 15px 0;
