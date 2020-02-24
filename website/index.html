@@ -14,15 +14,14 @@
         <img src="images/sun-background.png" alt="Image of sun and cloud">
         <h1>Weather Journal</h1>
     </header>
-    <div class="input-area">
-      <select id="country">
-        <option value="0" selected="true" disabled="disabled">Select country:</option>
-        <option value="gb">United Kingdom</option>
+    <div class="input-area noSelect">
+      <select id="country" class="noSelect">
+        <option value="gb" selected="true">United Kingdom</option>
         <option value="us">United States</option>
       </select>
-      <input type="text" id="zip" placeholder="Enter post/zip code" required>
-      <textarea class= "myInput" id="feelings" placeholder="Write your journal entry here" rows="5" cols="30" required></textarea>
-      <button id="generate" type="submit">Publish</button>
+      <input type="text" id="zip" maxlength="4" placeholder="Enter post code. Eg: SW9" required class="noSelect">
+      <textarea class= "myInput noSelect" id="feelings" placeholder="Write your journal entry here" rows="5" cols="30" required></textarea>
+      <button class="noSelect" id="generate" type="submit">Publish</button>
     </div>
     <h2>Journal Entries</h2>
     <content>

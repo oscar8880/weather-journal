@@ -30,7 +30,7 @@ submitButton.addEventListener('click', submitHandler)
 
 // For returning zip code to orginal style after invalid zip entered
 const zip = document.getElementById('zip')
-zip.addEventListener('click', (event) => zipClickHandler(event))
+zip.addEventListener('focusin', (event) => zipClickHandler(event))
 
 // For changing placeholder text according to country selected
 const countrySelector = document.getElementById('country')
@@ -47,15 +47,18 @@ function selectHandler (event) {
   const zip = document.getElementById('zip')
   const value = event.target.value
   if (value === 'gb') {
-    zip.setAttribute('placeholder', 'Enter post code. Eg: SW9')
+    zip.setAttribute('placeholder', 'Enter post code. Eg: SW9');
+    zip.setAttribute('maxlength', '4');
   } else if (value === 'us') {
-    zip.setAttribute('placeholder', 'Enter zip code. Eg: 94040')
+    zip.setAttribute('placeholder', 'Enter zip code. Eg: 94040');
+    zip.setAttribute('maxlength', '5');
   }
 }
 
 // Remove 'invalid' class from zip code field when user reattempts a zip code
 function zipClickHandler (event) {
-  event.target.classList.remove('invalid')
+  event.target.classList.remove('invalid');
+  document.querySelector('#zip').classList.remove('apply-shake');
 }
 
 // Publish post
@@ -94,8 +97,11 @@ function submitHandler () {
         updateUi()
       } catch (error) {
         console.log(error)
+        // alert('Invalid zip/post code.')
         // Make zip code field red to indicate invalid zip code
-        document.querySelector('#zip').classList.add('invalid')
+        const zipInput = document.querySelector('#zip');
+        zipInput.classList.add('invalid');
+        zipInput.classList.add('apply-shake');
       }
     })
 }
