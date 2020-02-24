@@ -77,5 +77,5 @@ app.delete('/delete/:id', (req, res) => {
   const id = req.params.id
   console.log('ID to be deleted: ' + id)
   projectData = projectData.filter((entry) => entry.id !== id)
-  res.send('Got a DELETE request at /delete')
+  res.send({});
 })
