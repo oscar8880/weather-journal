@@ -5,7 +5,7 @@
 // const serverUrl = 'http://localhost:8000/';
 
 // Heroku hosted server:
-const serverUrl = 'https://blooming-bayou-73291.herokuapp.com/';
+const serverUrl = 'https://weather-journal-app.herokuapp.com/';
 
 // Weather API url parts
 const baseUrl = 'https://api.openweathermap.org/data/2.5/weather?zip='
